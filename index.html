@@ -3,169 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8KXR - 渐变动效主页</title>
+    <title>8KXR - 3D 交互主页</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            scroll-behavior: smooth;
+            perspective: 1000px;
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
             color: white;
             min-height: 100vh;
-            transition: background 1s ease;
+            overflow-x: hidden;
         }
         
-        body.scrolled {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeIn 1s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-        
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-        
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .gallery-item {
-            border-radius: 15px;
+        .parallax-container {
+            position: relative;
+            height: 100vh;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.5s ease;
-            opacity: 0;
-            transform: scale(0.8);
-            animation: popIn 0.8s ease forwards;
         }
         
-        .gallery-item:nth-child(1) { animation-delay: 0.2s; }
-        .gallery-item:nth-child(2) { animation-delay: 0.4s; }
-        .gallery-item:nth-child(3) { animation-delay: 0.6s; }
-        .gallery-item:nth-child(4) { animation-delay: 0.8s; }
-        
-        @keyframes popIn {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120%;
+            height: 120%;
+            background: url('https://picsum.photos/seed/3d/1920/1080') center/cover;
+            transform: translateZ(-10px) scale(2);
+            opacity: 0.2;
         }
         
-        .gallery-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        .hero {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
         }
         
-        .gallery-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #2196F3, 0 0 40px #2196F3;
+            transform: translateZ(20px);
         }
         
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .gallery-item .content {
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-        }
-        
-        .gallery-item h3 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .gallery-item p {
+        .hero p {
+            font-size: 1.5rem;
             opacity: 0.8;
-            font-size: 0.9rem;
+            transform: translateZ(10px);
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            height: 400px;
+            background: linear-gradient(45deg, #1e1e1e, #2d2d2d);
+            border-radius: 20px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .card:hover {
+            transform: rotateY(15deg) rotateX(10deg) translateY(-20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 50px rgba(33, 150, 243, 0.3);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(33, 150, 243, 0.2));
+            border-radius: 20px;
+            transform: translateZ(1px);
+        }
+        
+        .card-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(30px);
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .card-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2196F3;
+        }
+        
+        .card-content p {
+            font-size: 1rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .btn-3d {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transform: translateZ(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .btn-3d:hover {
+            transform: translateZ(15px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.6);
+            background: #1976D2;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>8KXR 的渐变主页</h1>
-            <p>滚动页面查看更多动效，hover 图片有惊喜～</p>
+    <div class="parallax-container">
+        <div class="parallax-bg"></div>
+        <div class="hero">
+            <h1>3D 交互体验</h1>
+            <p>鼠标 hover 卡片查看 3D 翻转效果</p>
+        </div>
+    </div>
+    
+    <div class="card-container">
+        <div class="card">
+            <div class="card-content">
+                <h2>3D 卡片翻转</h2>
+                <p>基于 CSS 3D 变换实现的卡片立体翻转效果，hover 时自动旋转并上浮</p>
+                <button class="btn-3d">体验一下</button>
+            </div>
         </div>
         
-        <div class="gallery">
-            <div class="gallery-item">
-                <img src="https://picsum.photos/seed/1/800/600" alt="示例图片1">
-                <div class="content">
-                    <h3>动效卡片 1</h3>
-                    <p>图片悬浮缩放 + 卡片上浮阴影</p>
-                </div>
+        <div class="card">
+            <div class="card-content">
+                <h2>视差滚动</h2>
+                <p>背景图片和前景内容不同的滚动速度，营造出深度感和空间感</p>
+                <button class="btn-3d">体验一下</button>
             </div>
-            <div class="gallery-item">
-                <img src="https://picsum.photos/seed/2/800/600" alt="示例图片2">
-                <div class="content">
-                    <h3>动效卡片 2</h3>
-                    <p>延迟入场动画 + 平滑过渡</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://picsum.photos/seed/3/800/600" alt="示例图片3">
-                <div class="content">
-                    <h3>动效卡片 3</h3>
-                    <p>滚动背景渐变 + 文字发光</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://picsum.photos/seed/4/800/600" alt="示例图片4">
-                <div class="content">
-                    <h3>动效卡片 4</h3>
-                    <p>平滑滚动 + 响应式布局</p>
-                </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-content">
+                <h2>光影特效</h2>
+                <p>结合阴影和渐变，打造真实的光影层次，增强 3D 视觉效果</p>
+                <button class="btn-3d">体验一下</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 滚动改变背景渐变
+        // 视差滚动效果
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
-            if (scrollY > 200) {
-                document.body.classList.add('scrolled');
-            } else {
-                document.body.classList.remove('scrolled');
-            }
+            const parallaxBg = document.querySelector('.parallax-bg');
+            parallaxBg.style.transform = `translateZ(-10px) scale(2) translateY(${scrollY * 0.5}px)`;
         });
+
+        // 3D按钮点击效果
+        const btns3d = document.querySelectorAll('.btn-3d');
+        btns3d.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 点击波纹效果
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
+                
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '200px';
+                ripple.style.height = '200px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255,255,255,0.3)';
+                ripple.style.transform = `translate(-50%, -50%) scale(0)`;
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                ripple.style.pointerEvents = 'none';
+                
+                btn.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // 添加波纹动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
