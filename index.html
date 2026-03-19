@@ -100,9 +100,7 @@ body {
   cursor: pointer;
 }
 
-/* ========================== */
 /* 霓虹模块：霓虹效果 */
-/* ========================== */
 .module-neon {
   border: 2px solid #0ff;
   background: rgba(0,0,0,0.7);
@@ -114,9 +112,7 @@ body {
   transform: translateY(-6px);
 }
 
-/* ========================== */
 /* 渐变模块：渐变效果 */
-/* ========================== */
 .module-gradient {
   background: linear-gradient(45deg, #667eea, #764ba2);
 }
@@ -126,9 +122,7 @@ body {
   transform: translateY(-6px);
 }
 
-/* ========================== */
-/* 3D模块：你最初要的 3D 效果 */
-/* ========================== */
+/* 3D模块：还原最初的3D效果 */
 .module-3d {
   background: rgba(0,0,0,0.85);
   transform-style: preserve-3d;
@@ -140,9 +134,7 @@ body {
   box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255,255,0,0.3);
 }
 
-/* ========================== */
-/* 模块封面 */
-/* ========================== */
+/* 模块封面 + 图片放大动效 */
 .module-cover {
   display: flex;
   gap: 30px;
@@ -156,8 +148,14 @@ body {
   border-radius: 15px;
   object-fit: cover;
   flex-shrink: 0;
-  transition: all 0.5s ease;
+  transition: all 0.6s ease; /* 放大动效过渡 */
 }
+/* 模块hover时图片放大一圈 */
+.module:hover .module-cover-img {
+  transform: scale(1.1); /* 放大1.1倍 */
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
 .module-cover-text h2 {
   font-size: 2.4rem;
   margin-bottom: 12px;
@@ -172,9 +170,7 @@ body {
 .cover-title-gradient { color: #fff; text-shadow: 0 0 12px #fff; }
 .cover-title-3d { color: #ff0; text-shadow: 0 0 12px #ff0; }
 
-/* ========================== */
 /* 小节列表（默认隐藏） */
-/* ========================== */
 .section-list {
   display: none;
   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
@@ -190,9 +186,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================== */
 /* 小节样式 */
-/* ========================== */
 .section-item {
   display: flex;
   gap: 20px;
@@ -216,6 +210,17 @@ body {
 .section-text { flex:1; }
 .section-text h3 { font-size:1.4rem; margin-bottom:8px; }
 .section-text p { opacity:0.9; line-height:1.6; }
+/* 文本内链接样式 */
+.section-text a {
+  color: #0ff;
+  text-decoration: underline;
+  text-shadow: 0 0 5px #0ff;
+  transition: all 0.3s ease;
+}
+.section-text a:hover {
+  color: #ff0;
+  text-shadow: 0 0 8px #ff0;
+}
 </style>
 </head>
 <body>
@@ -237,14 +242,26 @@ body {
     </div>
   </div>
   <div class="section-list">
+    <!-- 切换文本（含多链接） -->
     <div class="section-item section-item-neon"
          data-action="text"
-         data-text-original="霓虹小节1：展示霓虹发光效果。"
-         data-text-change="霓虹小节1：已切换文本。">
+         data-text-original="霓虹小节1：展示<a href='https://github.com' target='_blank'>GitHub</a>霓虹效果，更多教程可看<a href='https://w3schools.com/css' target='_blank'>CSS教程</a>。"
+         data-text-change="霓虹小节1（切换后）：已调整<a href='https://8kxr.qzz.io' target='_blank'>个人主页</a>霓虹参数，发光强度提升20%，参考<a href='https://codepen.io' target='_blank'>CodePen</a>案例。">
       <img class="section-img" src="https://picsum.photos/seed/neon1/400/300">
       <div class="section-text">
-        <h3>霓虹小节1</h3>
-        <p>霓虹小节1：展示霓虹发光效果。</p>
+        <h3>霓虹小节1（切换文本+多链接）</h3>
+        <p>霓虹小节1：展示<a href='https://github.com' target='_blank'>GitHub</a>霓虹效果，更多教程可看<a href='https://w3schools.com/css' target='_blank'>CSS教程</a>。</p>
+      </div>
+    </div>
+    <!-- 跳转链接（可直接复制复用） -->
+    <div class="section-item section-item-neon"
+         data-action="link"
+         data-link="https://github.com/8KXR"
+         data-text-original="霓虹小节2：点击本小节跳转到<a href='https://github.com/8KXR' target='_blank'>我的GitHub仓库</a>，可查看源码。">
+      <img class="section-img" src="https://picsum.photos/seed/neon2/400/300">
+      <div class="section-text">
+        <h3>霓虹小节2（点击跳转链接）</h3>
+        <p>霓虹小节2：点击本小节跳转到<a href='https://github.com/8KXR' target='_blank'>我的GitHub仓库</a>，可查看源码。</p>
       </div>
     </div>
   </div>
@@ -260,20 +277,21 @@ body {
     </div>
   </div>
   <div class="section-list">
+    <!-- 跳转链接（可直接复制复用） -->
     <div class="section-item section-item-gradient"
-         data-action="text"
-         data-text-original="渐变小节1：展示渐变过渡效果。"
-         data-text-change="渐变小节1：已切换文本。">
+         data-action="link"
+         data-link="https://8kxr.qzz.io"
+         data-text-original="渐变小节1：点击本小节跳转到<a href='https://8kxr.qzz.io' target='_blank'>8KXR个人主页</a>，体验渐变动效。">
       <img class="section-img" src="https://picsum.photos/seed/gradient1/400/300">
       <div class="section-text">
-        <h3>渐变小节1</h3>
-        <p>渐变小节1：展示渐变过渡效果。</p>
+        <h3>渐变小节1（点击跳转链接）</h3>
+        <p>渐变小节1：点击本小节跳转到<a href='https://8kxr.qzz.io' target='_blank'>8KXR个人主页</a>，体验渐变动效。</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 3D模块 → 还原成你最开始喜欢的 3D -->
+<!-- 3D模块 -->
 <div class="module module-3d" data-type="3d">
   <div class="module-cover">
     <img class="module-cover-img" src="https://picsum.photos/seed/3d-cover/600/400">
@@ -283,14 +301,15 @@ body {
     </div>
   </div>
   <div class="section-list">
+    <!-- 切换文本（含多链接） -->
     <div class="section-item section-item-3d"
          data-action="text"
-         data-text-original="3D小节1：展示真实3D悬浮翻转。"
-         data-text-change="3D小节1：已切换文本。">
+         data-text-original="3D小节1：参考<a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-style' target='_blank'>MDN 3D教程</a>实现，素材来自<a href='https://picsum.photos' target='_blank'>Picsum</a>。"
+         data-text-change="3D小节1（切换后）：优化<a href='https://8kxr.qzz.io' target='_blank'>个人主页</a>3D旋转角度，从10°调整为12°，参考<a href='https://css-tricks.com/almanac/properties/t/transform/' target='_blank'>CSS-Tricks</a>。">
       <img class="section-img" src="https://picsum.photos/seed/3d1/400/300">
       <div class="section-text">
-        <h3>3D小节1</h3>
-        <p>3D小节1：展示真实3D悬浮翻转。</p>
+        <h3>3D小节1（切换文本+多链接）</h3>
+        <p>3D小节1：参考<a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-style' target='_blank'>MDN 3D教程</a>实现，素材来自<a href='https://picsum.photos' target='_blank'>Picsum</a>。</p>
       </div>
     </div>
   </div>
@@ -340,14 +359,26 @@ modules.forEach(mod=>{
   });
 });
 
-// 小节点击切换文字
+// 小节点击交互（切换文本/跳转链接）
 document.querySelectorAll('.section-item').forEach(item=>{
   item.addEventListener('click',(e)=>{
+    // 点击文本内的链接时，不触发小节交互
+    if (e.target.tagName === 'A') return;
+    
     e.stopPropagation();
+    const action = item.dataset.action;
     const p = item.querySelector('p');
-    const orig = item.dataset.textOriginal;
-    const chg = item.dataset.textChange;
-    p.innerText = p.innerText === orig ? chg : orig;
+    
+    if (action === 'link') {
+      // 跳转链接（新标签页）
+      const link = item.dataset.link;
+      window.open(link, '_blank');
+    } else if (action === 'text') {
+      // 切换文本（保留HTML链接）
+      const orig = item.dataset.textOriginal;
+      const chg = item.dataset.textChange;
+      p.innerHTML = p.innerHTML === orig ? chg : orig;
+    }
   });
 });
 </script>
